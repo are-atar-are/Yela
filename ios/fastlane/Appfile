@@ -1,0 +1,5 @@
+app_identifier("com.yela.app")
+apple_id(ENV["APPLE_ID"] || "your-apple-id@example.com")
+
+# App Store Connect API Key
+api_key_path("fastlane/app_store_connect_api_key.json") if File.exist?("fastlane/app_store_connect_api_key.json")

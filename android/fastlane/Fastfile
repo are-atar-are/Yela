@@ -1,0 +1,52 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+
+default_platform(:android)
+
+platform :android do
+  desc "Push a new beta build to Google Play Internal Testing"
+  lane :beta do
+    # Increment version code
+    increment_version_code(
+      gradle_file_path: "./app/build.gradle"
+    )
+    
+    # Build AAB (Android App Bundle)
+    gradle(
+      task: "bundle",
+      build_type: "Release"
+    )
+    
+    # Upload to Google Play Internal Testing
+    upload_to_play_store(
+      track: "internal",
+      aab: "./app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Deploy a new version to Google Play Production"
+  lane :release do
+    increment_version_code(gradle_file_path: "./app/build.gradle")
+    
+    gradle(
+      task: "bundle",
+      build_type: "Release"
+    )
+    
+    upload_to_play_store(
+      track: "production",
+      aab: "./app/build/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  desc "Build APK for testing"
+  lane :apk do
+    gradle(
+      task: "assemble",
+      build_type: "Release"
+    )
+  end
+end
