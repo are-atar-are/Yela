@@ -8,7 +8,8 @@ platform :ios do
   lane :beta do
     match(
       type: "appstore",
-      readonly: is_ci
+      readonly: false,
+      force_for_new_devices: true
     )
     
     build_app(
