@@ -31,7 +31,7 @@ jobs:
         run: |
           cd ios
           bundle install
-          bundle exec pod install
+          bundle exec pod install --repo-update
 
       - name: Setup Fastlane
         run: |
