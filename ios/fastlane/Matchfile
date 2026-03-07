@@ -4,5 +4,5 @@ type("appstore")
 app_identifier(["com.yela.app"])
 username(ENV["APPLE_ID"] || "are.atar.are@gmail.com")
 
-# Use wildcard for initial setup
-# app_identifier(["*"])
+# Use GitHub token for authentication in CI
+git_basic_authorization(ENV["MATCH_GIT_BASIC_AUTHORIZATION"]) if ENV["MATCH_GIT_BASIC_AUTHORIZATION"]
