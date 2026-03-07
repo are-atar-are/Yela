@@ -55,8 +55,10 @@ jobs:
           security create-keychain -p "github-actions" build.keychain
           security default-keychain -s build.keychain
           security unlock-keychain -p "github-actions" build.keychain
-          # Generate certificate and profile using API key
-          fastlane cert --api_key_path fastlane/api_key.json --keychain_path build.keychain --keychain_password github-actions
+          security set-keychain-settings -t 3600 -l build.keychain
+          # Generate certificate (will be stored in the keychain)
+          fastlane cert --api_key_path fastlane/api_key.json --username are.atar.are@gmail.com
+          # Generate provisioning profile
           fastlane sigh --api_key_path fastlane/api_key.json --app_identifier com.yela.app --output_path ~/Library/MobileDevice/Provisioning\ Profiles/
           # Build
           fastlane beta
