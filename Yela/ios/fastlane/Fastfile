@@ -15,9 +15,10 @@ platform :ios do
       in_house: false
     )
     
+    # Setup signing with custom keychain
     match(
       type: "appstore",
-      readonly: is_ci,
+      readonly: true,
       api_key: api_key,
       keychain_name: "build.keychain",
       keychain_password: "github-actions"
