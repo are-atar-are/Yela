@@ -43,6 +43,11 @@ jobs:
           cd ios
           gem install fastlane
 
+      - name: Unlock Keychain
+        run: |
+          security unlock-keychain -p "" ~/Library/Keychains/login.keychain-db
+          security set-keychain-settings -t 3600 -l ~/Library/Keychains/login.keychain-db
+
       - name: Build and Deploy to TestFlight
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
