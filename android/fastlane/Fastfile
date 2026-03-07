@@ -6,11 +6,6 @@ default_platform(:android)
 platform :android do
   desc "Push a new beta build to Google Play Internal Testing"
   lane :beta do
-    # Increment version code
-    increment_version_code(
-      gradle_file_path: "./app/build.gradle"
-    )
-    
     # Build AAB (Android App Bundle)
     gradle(
       task: "bundle",
@@ -29,8 +24,6 @@ platform :android do
 
   desc "Deploy a new version to Google Play Production"
   lane :release do
-    increment_version_code(gradle_file_path: "./app/build.gradle")
-    
     gradle(
       task: "bundle",
       build_type: "Release"
