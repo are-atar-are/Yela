@@ -18,7 +18,9 @@ platform :ios do
     match(
       type: "appstore",
       readonly: is_ci,
-      api_key: api_key
+      api_key: api_key,
+      keychain_name: "build.keychain",
+      keychain_password: "github-actions"
     )
     
     build_app(
