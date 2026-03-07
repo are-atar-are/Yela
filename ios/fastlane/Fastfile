@@ -17,22 +17,20 @@ platform :ios do
       xcodeproj: "Yela.xcodeproj"
     )
     
-    # Update code signing settings
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: "Yela.xcodeproj",
-      team_id: "46Z55D38V7",
-      code_sign_identity: "Apple Distribution",
-      profile_name: "match AppStore com.yela.app"
-    )
-    
-    # Build the app
+    # Build the app with explicit export options
     build_app(
       workspace: "Yela.xcworkspace",
       scheme: "Yela",
       export_method: "app-store",
       output_directory: "./build",
-      output_name: "Yela.ipa"
+      output_name: "Yela.ipa",
+      export_options: {
+        provisioningProfiles: {
+          "com.yela.app" => "match AppStore com.yela.app"
+        },
+        signingStyle: "manual",
+        teamID: "46Z55D38V7"
+      }
     )
     
     # Upload to TestFlight
