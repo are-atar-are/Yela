@@ -49,15 +49,6 @@ jobs:
           cd ios
           fastlane beta
 
-      - name: Notify Slack
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: 'iOS Build ${{ job.status }}'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
   build-android:
     runs-on: ubuntu-latest
     steps:
@@ -99,12 +90,3 @@ jobs:
         run: |
           cd android
           fastlane beta
-
-      - name: Notify Slack
-        if: always()
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: 'Android Build ${{ job.status }}'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
