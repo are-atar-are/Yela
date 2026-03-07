@@ -4,3 +4,5 @@ type("appstore")
 app_identifier(["com.yela.app"])
 username(ENV["APPLE_ID"] || "are.atar.are@gmail.com")
 git_basic_authorization(ENV["MATCH_GIT_BASIC_AUTHORIZATION"]) if ENV["MATCH_GIT_BASIC_AUTHORIZATION"]
+keychain_name("login.keychain")
+keychain_password(ENV["MATCH_PASSWORD"])
