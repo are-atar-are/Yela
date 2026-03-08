@@ -1,0 +1,111 @@
+name: iOS Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: Yela/package-lock.json
+    
+    - name: Install dependencies
+      working-directory: ./Yela
+      run: npm ci
+      
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+        working-directory: ./Yela/ios
+    
+    - name: Install CocoaPods
+      working-directory: ./Yela/ios
+      run: |
+        gem install cocoapods
+        pod install
+    
+    - name: Build iOS (Debug)
+      working-directory: ./Yela/ios
+      run: |
+        xcodebuild -workspace Yela.xcworkspace \
+          -scheme Yela \
+          -configuration Debug \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          build
+    
+    - name: Run tests
+      working-directory: ./Yela/ios
+      run: |
+        xcodebuild -workspace Yela.xcworkspace \
+          -scheme Yela \
+          -configuration Debug \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          test
+
+  beta:
+    needs: build-and-test
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: Yela/package-lock.json
+    
+    - name: Install dependencies
+      working-directory: ./Yela
+      run: npm ci
+      
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+        working-directory: ./Yela/ios
+    
+    - name: Install CocoaPods
+      working-directory: ./Yela/ios
+      run: |
+        gem install cocoapods
+        pod install
+    
+    - name: Setup App Store Connect API Key
+      env:
+        APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+      run: echo "API Key configured"
+    
+    - name: Build and upload to TestFlight
+      working-directory: ./Yela/ios
+      env:
+        APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+        APPLE_ID: ${{ secrets.APPLE_ID }}
+      run: bundle exec fastlane beta
