@@ -43,14 +43,21 @@ jobs:
           cd ios
           gem install fastlane
 
-      - name: Build and Deploy to TestFlight
+      - name: Generate Certificates and Build
         env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
         run: |
           cd ios
+          # Create keychain
+          security create-keychain -p "github-actions" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "github-actions" build.keychain
+          security set-keychain-settings -t 3600 -l build.keychain
+          # Generate new certificate and profile (no Match!)
+          fastlane cert --development false --username are.atar.are@gmail.com --keychain_path build.keychain
+          fastlane sigh --app_identifier com.yela.app --username are.atar.are@gmail.com --output_path ~/Library/MobileDevice/Provisioning\ Profiles/
+          # Build
           fastlane beta

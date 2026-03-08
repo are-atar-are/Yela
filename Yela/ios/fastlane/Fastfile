@@ -14,14 +14,6 @@ platform :ios do
       in_house: false
     )
     
-    # Use existing certificate from Match repo
-    match(
-      type: "appstore",
-      readonly: true,
-      api_key: api_key,
-      generate_apple_certs: false
-    )
-    
     build_app(
       workspace: "Yela.xcworkspace",
       scheme: "Yela",
@@ -30,7 +22,7 @@ platform :ios do
       output_name: "Yela.ipa",
       export_options: {
         provisioningProfiles: {
-          "com.yela.app" => "match AppStore com.yela.app"
+          "com.yela.app" => "com.yela.app AppStore"
         },
         signingStyle: "manual",
         teamID: "46Z55D38V7"
