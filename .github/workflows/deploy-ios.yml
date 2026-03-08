@@ -39,22 +39,10 @@ jobs:
         working-directory: ios
         run: gem install fastlane
 
-      - name: Generate Certificates and Build
+      - name: Build and Deploy
         working-directory: ios
         env:
-          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-        run: |
-          # Create keychain with absolute path in temp directory
-          KEYCHAIN_PATH="${RUNNER_TEMP}/build.keychain"
-          security create-keychain -p "github-actions" "${KEYCHAIN_PATH}"
-          security default-keychain -s "${KEYCHAIN_PATH}"
-          security unlock-keychain -p "github-actions" "${KEYCHAIN_PATH}"
-          security set-keychain-settings -t 3600 -l "${KEYCHAIN_PATH}"
-          # Generate new certificate and profile (no Match!)
-          bundle exec fastlane cert --development false --username are.atar.are@gmail.com --keychain_path "${KEYCHAIN_PATH}"
-          bundle exec fastlane sigh --app_identifier com.yela.app --username are.atar.are@gmail.com --output_path ~/Library/MobileDevice/Provisioning\ Profiles/
-          # Build
-          bundle exec fastlane beta
+        run: bundle exec fastlane beta

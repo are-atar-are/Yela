@@ -6,6 +6,7 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
+    # Setup API Key
     api_key = app_store_connect_api_key(
       key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
       issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
@@ -14,6 +15,21 @@ platform :ios do
       in_house: false
     )
     
+    # Get certificates and provisioning profiles using API Key
+    get_certificates(
+      api_key: api_key,
+      development: false,
+      output_path: "./build"
+    )
+    
+    get_provisioning_profile(
+      api_key: api_key,
+      app_identifier: "com.yela.app",
+      output_path: "./build",
+      filename: "Yela.mobileprovision"
+    )
+    
+    # Build the app
     build_app(
       workspace: "Yela.xcworkspace",
       scheme: "Yela",
@@ -22,13 +38,12 @@ platform :ios do
       output_name: "Yela.ipa",
       export_options: {
         provisioningProfiles: {
-          "com.yela.app" => "com.yela.app AppStore"
-        },
-        signingStyle: "manual",
-        teamID: "46Z55D38V7"
+          "com.yela.app" => "Yela.mobileprovision"
+        }
       }
     )
     
+    # Upload to TestFlight
     upload_to_testflight(
       skip_waiting_for_build_processing: true,
       notify_external_testers: false,
