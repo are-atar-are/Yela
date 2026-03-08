@@ -5,10 +5,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: Yela
-
 jobs:
   build-ios:
     runs-on: macos-latest
@@ -21,7 +17,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: Yela/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -31,33 +27,34 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
+          working-directory: ios
 
       - name: Install CocoaPods
+        working-directory: ios
         run: |
-          cd ios
           bundle install
           bundle exec pod install
 
       - name: Setup Fastlane
-        run: |
-          cd ios
-          gem install fastlane
+        working-directory: ios
+        run: gem install fastlane
 
       - name: Generate Certificates and Build
+        working-directory: ios
         env:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
         run: |
-          cd ios
-          # Create keychain
-          security create-keychain -p "github-actions" build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "github-actions" build.keychain
-          security set-keychain-settings -t 3600 -l build.keychain
+          # Create keychain with absolute path in temp directory
+          KEYCHAIN_PATH="${RUNNER_TEMP}/build.keychain"
+          security create-keychain -p "github-actions" "${KEYCHAIN_PATH}"
+          security default-keychain -s "${KEYCHAIN_PATH}"
+          security unlock-keychain -p "github-actions" "${KEYCHAIN_PATH}"
+          security set-keychain-settings -t 3600 -l "${KEYCHAIN_PATH}"
           # Generate new certificate and profile (no Match!)
-          fastlane cert --development false --username are.atar.are@gmail.com --keychain_path build.keychain
-          fastlane sigh --app_identifier com.yela.app --username are.atar.are@gmail.com --output_path ~/Library/MobileDevice/Provisioning\ Profiles/
+          bundle exec fastlane cert --development false --username are.atar.are@gmail.com --keychain_path "${KEYCHAIN_PATH}"
+          bundle exec fastlane sigh --app_identifier com.yela.app --username are.atar.are@gmail.com --output_path ~/Library/MobileDevice/Provisioning\ Profiles/
           # Build
-          fastlane beta
+          bundle exec fastlane beta
