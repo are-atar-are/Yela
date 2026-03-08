@@ -16,11 +16,17 @@ platform :ios do
     )
     
     # Get certificates and provisioning profiles using API Key
-    get_certificates(
-      api_key: api_key,
-      development: false,
-      output_path: "./build"
-    )
+    # Use existing certificates or create new ones
+    # Skip if max certificates reached - will use existing
+    begin
+      get_certificates(
+        api_key: api_key,
+        development: false,
+        output_path: "./build"
+      )
+    rescue => ex
+      UI.message("Could not create certificate, may already exist: #{ex.message}")
+    end
     
     get_provisioning_profile(
       api_key: api_key,
