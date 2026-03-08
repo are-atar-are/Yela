@@ -15,13 +15,22 @@ platform :ios do
       in_house: false
     )
     
-    # Build the app - uses existing certificates/profiles
+    # Find the installed provisioning profile
+    profile_path = Dir["#{ENV['HOME']}/Library/MobileDevice/Provisioning Profiles/*.mobileprovision"].first
+    UI.message("Using provisioning profile: #{profile_path}")
+    
+    # Build the app with manual signing
     build_app(
       workspace: "Yela.xcworkspace",
       scheme: "Yela",
       export_method: "app-store",
       output_directory: "./build",
-      output_name: "Yela.ipa"
+      output_name: "Yela.ipa",
+      export_options: {
+        provisioningProfiles: {
+          "com.yela.app" => File.basename(profile_path, ".mobileprovision")
+        }
+      }
     )
     
     # Upload to TestFlight
