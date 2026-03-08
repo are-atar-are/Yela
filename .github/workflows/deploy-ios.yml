@@ -79,11 +79,13 @@ jobs:
             -exportPath ./build/
 
       - name: Upload to TestFlight
-        uses: appleboy/app-store-release-action@v1.5.0
-        with:
-          api_key: ${{ secrets.APP_STORE_API_KEY }}
-          api_key_id: 724BJV49Q8
-          api_key_issuer_id: 50f75704-db3f-4938-9a9a-cf560fd69397
-          ipa_path: ./ios/build/Yela.ipa
-          submit_for_review: false
-          release_type: beta
+        working-directory: ios
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+        run: |
+          bundle exec fastlane run upload_to_testflight \
+            ipa:./build/Yela.ipa \
+            skip_waiting_for_build_processing:true \
+            notify_external_testers:false
