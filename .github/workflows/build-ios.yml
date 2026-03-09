@@ -90,7 +90,7 @@ jobs:
           path: ./artifacts/*.ipa
 
   distribute:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [build_with_signing]
     steps:
       - name: Download artifact
@@ -103,6 +103,13 @@ jobs:
         run: |
           ls -l ./artifacts/*.ipa
 
+      - name: Setup API Key for TestFlight
+        env:
+          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+        run: |
+          echo -n "$APP_STORE_API_KEY" | base64 --decode -o ./api_key.p8
+          ls -l ./api_key.p8
+
       - name: Upload to TestFlight
         uses: appleboy/app-store-release-action@v1.5.0
         with:
@@ -110,5 +117,3 @@ jobs:
           ipa_path: ./artifacts/Yela.ipa
           submit_for_review: false
           release_type: beta
-        env:
-          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
