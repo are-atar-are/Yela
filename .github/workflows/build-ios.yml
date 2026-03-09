@@ -43,8 +43,17 @@ jobs:
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          # Copy provisioning profile - xcodebuild will find it by bundle ID
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/
+          # Try to extract UUID from the provisioning profile using openssl
+          # The profile is CMS encrypted, we need to decrypt it first
+          UUID=$(openssl smime -inform DER -verify -noverify -in $PP_PATH 2>/dev/null | grep -a "<key>UUID</key>" -A1 | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | tr -d '\n')
+          if [ -n "$UUID" ]; then
+            cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+            echo "Installed provisioning profile with UUID: $UUID"
+          else
+            # Fallback: copy with original name
+            cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/
+            echo "Warning: Could not extract UUID, copying with original name"
+          fi
 
           security find-identity -v -p codesigning
           ls -l ~/Library/MobileDevice/Provisioning\ Profiles     
