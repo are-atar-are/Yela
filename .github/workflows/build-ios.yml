@@ -28,6 +28,10 @@ jobs:
           BUILD_CERTIFICATE_BASE64=$(cat .github/secrets/BUILD_CERTIFICATE_BASE64.txt)
           PROVISION_PROFILES_BASE64=$(cat .github/secrets/PROVISION_PROFILES_BASE64.txt)
 
+          # Debug: Check file lengths
+          echo "Certificate base64 length: ${#BUILD_CERTIFICATE_BASE64}"
+          echo "Profile base64 length: ${#PROVISION_PROFILES_BASE64}"
+
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
           echo -n "$PROVISION_PROFILES_BASE64" | base64 --decode -o $PP_PATH
 
