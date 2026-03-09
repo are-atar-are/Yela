@@ -132,7 +132,7 @@ jobs:
           ls -l ./api_key.p8
 
       - name: Upload to TestFlight
-        uses: appleboy/app-store-connect-action@v1.5.0
+        uses: appleboy/upload-testflight-build@v1.5.0
         with:
           api_key_path: ./api_key.p8
           ipa_path: ./artifacts/Yela.ipa
