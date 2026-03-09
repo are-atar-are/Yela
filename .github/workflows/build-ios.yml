@@ -96,6 +96,7 @@ jobs:
           -configuration Release \
           -destination generic/platform=iOS \
           -archivePath $RUNNER_TEMP/Yela.xcarchive \
+          -allowProvisioningUpdates \
           archive   
 
       - name: export ipa
