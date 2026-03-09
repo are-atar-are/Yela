@@ -132,9 +132,13 @@ jobs:
           ls -l ./api_key.p8
 
       - name: Upload to TestFlight
-        uses: appleboy/upload-testflight-build@v1.5.0
-        with:
-          api_key_path: ./api_key.p8
-          ipa_path: ./artifacts/Yela.ipa
-          submit_for_review: false
-          release_type: beta
+        run: |
+          # Install fastlane
+          gem install fastlane -NV
+          
+          # Upload to TestFlight using fastlane pilot
+          fastlane pilot upload \
+            --ipa ./artifacts/Yela.ipa \
+            --api_key_path ./api_key.p8 \
+            --skip_submission \
+            --skip_waiting_for_build_processing
