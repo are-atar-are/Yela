@@ -64,6 +64,16 @@ jobs:
           cd ios
           pod install
 
+      - name: Configure manual signing
+        run: |
+          cd ios
+          # Disable automatic signing and set manual provisioning
+          sed -i '' 's/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g' Yela.xcodeproj/project.pbxproj
+          sed -i '' 's/DEFINES_MODULE = YES;/DEFINES_MODULE = NO;/g' Yela.xcodeproj/project.pbxproj
+          # Set the provisioning profile specifier
+          sed -i '' 's/PROVISIONING_PROFILE_SPECIFIER = "";*/PROVISIONING_PROFILE_SPECIFIER = "Yela_CI";/g' Yela.xcodeproj/project.pbxproj
+          sed -i '' 's/PROVISIONING_PROFILE = "";*/PROVISIONING_PROFILE = "2a96ebcb-8b9b-476a-8ef7-570cb6b033e2";/g' Yela.xcodeproj/project.pbxproj
+
       - name: build archive
         run: |
           cd ios
@@ -73,6 +83,8 @@ jobs:
           -configuration Release \
           -destination generic/platform=iOS \
           -archivePath $RUNNER_TEMP/Yela.xcarchive \
+          CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE_SPECIFIER="Yela_CI" \
           archive   
 
       - name: export ipa
