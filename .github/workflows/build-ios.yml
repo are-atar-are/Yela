@@ -43,33 +43,10 @@ jobs:
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          # Try multiple methods to extract UUID from the provisioning profile
-          UUID=""
-          
-          # Method 1: Try using openssl smime
-          UUID=$(openssl smime -inform DER -verify -noverify -in $PP_PATH 2>/dev/null | grep -a "<key>UUID</key>" -A1 | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | tr -d '\n')
-          
-          # Method 2: If that fails, try using security cms with legacy encoding
-          if [ -z "$UUID" ]; then
-            UUID=$(security cms -D -i $PP_PATH 2>/dev/null | grep -a "<key>UUID</key>" -A1 | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | tr -d '\n')
-          fi
-          
-          # Method 3: Try using strings and grep
-          if [ -z "$UUID" ]; then
-            UUID=$(strings $PP_PATH | grep -A1 "UUID" | grep -E "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" | head -1)
-          fi
-          
-          if [ -n "$UUID" ]; then
-            cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
-            echo "Installed provisioning profile with UUID: $UUID"
-          else
-            # Fallback: copy with a generic UUID-based name
-            # Generate a UUID from the profile content hash
-            PROFILE_HASH=$(openssl dgst -sha256 $PP_PATH | cut -d' ' -f2 | cut -c1-32)
-            UUID="${PROFILE_HASH:0:8}-${PROFILE_HASH:8:4}-${PROFILE_HASH:12:4}-${PROFILE_HASH:16:4}-${PROFILE_HASH:20:12}"
-            cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
-            echo "Warning: Could not extract UUID, using generated UUID: $UUID"
-          fi
+          # Extract UUID from the provisioning profile
+          UUID=$(security cms -D -i $PP_PATH 2>/dev/null | grep -A1 "<key>UUID</key>" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | tr -d '\n')
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+          echo "Installed provisioning profile with UUID: $UUID"
 
           security find-identity -v -p codesigning
           ls -l ~/Library/MobileDevice/Provisioning\ Profiles     
@@ -96,7 +73,6 @@ jobs:
           -configuration Release \
           -destination generic/platform=iOS \
           -archivePath $RUNNER_TEMP/Yela.xcarchive \
-          -allowProvisioningUpdates \
           archive   
 
       - name: export ipa
