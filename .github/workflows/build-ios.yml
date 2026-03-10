@@ -129,17 +129,18 @@ jobs:
           ls -l ./artifacts/*.ipa
 
       - name: Setup API Key for TestFlight
-        env:
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
         run: |
+          # Read API key components from files
+          KEY_ID=$(cat .github/secrets/APP_STORE_CONNECT_KEY_ID.txt)
+          ISSUER_ID=$(cat .github/secrets/APP_STORE_CONNECT_ISSUER_ID.txt)
+          KEY_CONTENT=$(cat .github/secrets/APP_STORE_CONNECT_KEY_CONTENT.txt)
+          
           # Create API key JSON file for fastlane
           cat > ./api_key.json << EOF
           {
-            "key_id": "$APP_STORE_CONNECT_KEY_ID",
-            "issuer_id": "$APP_STORE_CONNECT_ISSUER_ID",
-            "key": "$APP_STORE_CONNECT_KEY_CONTENT"
+            "key_id": "$KEY_ID",
+            "issuer_id": "$ISSUER_ID",
+            "key": "$KEY_CONTENT"
           }
           EOF
           ls -l ./api_key.json
