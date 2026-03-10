@@ -151,14 +151,10 @@ jobs:
           KEY_ID=$(cat .github/secrets/APP_STORE_CONNECT_KEY_ID.txt)
           ISSUER_ID=$(cat .github/secrets/APP_STORE_CONNECT_ISSUER_ID.txt)
           
-          # Create API key JSON for altool
-          cat > ./api_key.json << EOF
-          {
-            "key_id": "$KEY_ID",
-            "issuer_id": "$ISSUER_ID",
-            "private_key": $(cat .github/secrets/APP_STORE_CONNECT_KEY_CONTENT.txt | jq -R -s '.')
-          }
-          EOF
+          # Create private_keys directory and place key file there (required by altool)
+          mkdir -p ~/.private_keys
+          cp .github/secrets/APP_STORE_CONNECT_KEY_CONTENT.txt ~/.private_keys/AuthKey_${KEY_ID}.p8
+          ls -la ~/.private_keys/
           
           # Upload to TestFlight using xcrun altool
           xcrun altool --upload-app \
