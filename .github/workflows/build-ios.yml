@@ -129,10 +129,20 @@ jobs:
           ls -l ./artifacts/*.ipa
 
       - name: Setup API Key for TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
         run: |
-          APP_STORE_API_KEY=$(cat .github/secrets/APP_STORE_API_KEY.txt)
-          echo -n "$APP_STORE_API_KEY" | base64 --decode -o ./api_key.p8
-          ls -l ./api_key.p8
+          # Create API key JSON file for fastlane
+          cat > ./api_key.json << EOF
+          {
+            "key_id": "$APP_STORE_CONNECT_KEY_ID",
+            "issuer_id": "$APP_STORE_CONNECT_ISSUER_ID",
+            "key": "$APP_STORE_CONNECT_KEY_CONTENT"
+          }
+          EOF
+          ls -l ./api_key.json
 
       - name: Upload to TestFlight
         run: |
@@ -142,6 +152,6 @@ jobs:
           # Upload to TestFlight using fastlane pilot
           fastlane pilot upload \
             --ipa ./artifacts/Yela.ipa \
-            --api_key_path ./api_key.p8 \
+            --api_key_path ./api_key.json \
             --skip_submission \
             --skip_waiting_for_build_processing
