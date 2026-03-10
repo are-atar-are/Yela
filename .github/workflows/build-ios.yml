@@ -133,14 +133,17 @@ jobs:
           # Read API key components from files
           KEY_ID=$(cat .github/secrets/APP_STORE_CONNECT_KEY_ID.txt)
           ISSUER_ID=$(cat .github/secrets/APP_STORE_CONNECT_ISSUER_ID.txt)
+          KEY_CONTENT=$(cat .github/secrets/APP_STORE_CONNECT_KEY_CONTENT.txt | tr '\n' ' ' | sed 's/ //g')
           
-          # Copy the key file (which already has proper PEM format)
-          cp .github/secrets/APP_STORE_CONNECT_KEY_CONTENT.txt ./api_key.p8
-          ls -l ./api_key.p8
-          
-          # Export as environment variables for fastlane
-          echo "APP_STORE_CONNECT_KEY_ID=$KEY_ID" >> $GITHUB_ENV
-          echo "APP_STORE_CONNECT_ISSUER_ID=$ISSUER_ID" >> $GITHUB_ENV
+          # Create API key JSON file for fastlane
+          cat > ./api_key.json << EOF
+          {
+            "key_id": "$KEY_ID",
+            "issuer_id": "$ISSUER_ID",
+            "key": "$KEY_CONTENT"
+          }
+          EOF
+          ls -l ./api_key.json
 
       - name: Upload to TestFlight
         run: |
@@ -150,8 +153,6 @@ jobs:
           # Upload to TestFlight using fastlane pilot with API key
           fastlane pilot upload \
             --ipa ./artifacts/Yela.ipa \
-            --api_key_path ./api_key.p8 \
-            --api_key_id "$APP_STORE_CONNECT_KEY_ID" \
-            --api_key_issuer_id "$APP_STORE_CONNECT_ISSUER_ID" \
+            --api_key_path ./api_key.json \
             --skip_submission \
             --skip_waiting_for_build_processing
