@@ -90,17 +90,18 @@ jobs:
       - name: Upload IPA to Firebase
         run: |
           # Install Firebase CLI
-          curl -sL https://firebase.tools | bash
+          npm install -g firebase-tools
           
-          # Create service account file
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > /tmp/service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
+          # Login using service account
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > /tmp/key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/key.json
           
           # Upload to Firebase
           firebase appdistribution:distribute ./artifacts/Yela.ipa \
             --app "1:846145100933:ios:545c7ffdd25a2ce5599dec" \
             --groups "testers" \
-            --release-notes "Build ${{ github.sha }}"
+            --release-notes "Build ${{ github.sha }}" \
+            --token "$(cat /tmp/key.json | jq -r '.private_key' | head -1)"
 
   build-android:
     runs-on: ubuntu-latest
