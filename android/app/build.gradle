@@ -76,7 +76,7 @@ android {
 
     namespace "com.yela"
     defaultConfig {
-        applicationId "com.yela"
+        applicationId "com.yela.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
