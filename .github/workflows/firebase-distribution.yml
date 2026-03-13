@@ -87,13 +87,11 @@ jobs:
           EOF
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/Yela.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath ./artifacts
 
-      - name: Upload IPA to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - name: Upload IPA to GitHub Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          appId: 1:846145100933:ios:545c7ffdd25a2ce5599dec
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
-          file: ./artifacts/Yela.ipa
+          name: Yela-iOS
+          path: ./artifacts/Yela.ipa
 
   build-android:
     runs-on: ubuntu-latest
@@ -132,10 +130,8 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Upload APK to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - name: Upload APK to GitHub Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          appId: 1:846145100933:android:300f2ba632a11884599dec
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
-          file: ./android/app/build/outputs/apk/release/app-release.apk
+          name: Yela-Android
+          path: ./android/app/build/outputs/apk/release/app-release.apk
