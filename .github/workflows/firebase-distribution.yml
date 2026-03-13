@@ -87,11 +87,15 @@ jobs:
           EOF
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/Yela.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath ./artifacts
 
+      - name: Setup Firebase Credentials
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > ./firebase-service-account.json
+      
       - name: Upload IPA to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          serviceCredentialsFile: ./firebase-service-account.json
           groups: testers
           file: ./artifacts/Yela.ipa
           releaseNotes: |
@@ -134,11 +138,15 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
+      - name: Setup Firebase Credentials
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > ./firebase-service-account.json
+      
       - name: Upload APK to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          serviceCredentialsFile: ./firebase-service-account.json
           groups: testers
           file: ./android/app/build/outputs/apk/release/app-release.apk
           releaseNotes: |
