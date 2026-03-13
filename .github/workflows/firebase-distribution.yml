@@ -88,33 +88,42 @@ jobs:
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/Yela.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath ./artifacts
 
       - name: Upload IPA to Firebase
-        run: |
-          # Install Firebase CLI
-          curl -sL https://firebase.tools | bash
-          
-          # Create service account file
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > /tmp/service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
-          
-          # Upload to Firebase
-          firebase appdistribution:distribute ./artifacts/Yela.ipa \
-            --app "1:846145100933:ios:545c7ffdd25a2ce5599dec" \
-            --groups "testers" \
-            --release-notes "Build ${{ github.sha }}"
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: 1:846145100933:ios:545c7ffdd25a2ce5599dec
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: ./artifacts/Yela.ipa
+          debug: true
 
   build-android:
     runs-on: ubuntu-latest
     steps:
+      - name: Free Disk Space
+        run: |
+          echo "Cleaning up disk space..."
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android/sdk/ndk
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          docker system prune -af || true
+          echo "Disk space cleaned."
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Install Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: 17
+          distribution: adopt
+          cache: gradle
 
-      - name: Set up Node.js
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Setup Node 
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -123,32 +132,46 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Decode keystore
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode and save keystore
         run: |
-          mkdir -p android/app
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/yela-upload.keystore
 
-      - name: Build Android APK
+      - name: Clean Gradle Cache
+        run: cd android && ./gradlew clean
+
+      - name: Build Android App
         run: |
-          cd android
-          ./gradlew assembleRelease
+          cd android && ./gradlew assembleRelease
         env:
           KEYSTORE_FILE: yela-upload.keystore
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Upload APK to Firebase
+      - name: Check APK Location
         run: |
-          # Install Firebase CLI
-          curl -sL https://firebase.tools | bash
-          
-          # Create service account file
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > /tmp/service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
-          
-          # Upload to Firebase
-          firebase appdistribution:distribute ./android/app/build/outputs/apk/release/app-release.apk \
-            --app "1:846145100933:android:300f2ba632a11884599dec" \
-            --groups "testers" \
-            --release-notes "Build ${{ github.sha }}"
+          echo "Looking for APK file..."
+          find android/app/build/outputs/apk -type f
+
+      - name: Validate APK Exists
+        run: |
+          APK_PATH="android/app/build/outputs/apk/release/app-release.apk"
+          if [[ -f "$APK_PATH" ]]; then
+            echo "✅ APK file exists at: $APK_PATH"
+            ls -l "$APK_PATH"
+          else
+            echo "❌ APK file is missing!"
+            exit 1
+          fi
+
+      - name: Upload APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: 1:846145100933:android:300f2ba632a11884599dec
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: android/app/build/outputs/apk/release/app-release.apk
+          debug: true
