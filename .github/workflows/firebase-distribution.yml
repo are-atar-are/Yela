@@ -88,12 +88,19 @@ jobs:
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/Yela.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath ./artifacts
 
       - name: Upload IPA to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: 1:846145100933:ios:545c7ffdd25a2ce5599dec
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
-          file: ./artifacts/Yela.ipa
+        run: |
+          # Install Firebase CLI
+          curl -sL https://firebase.tools | bash
+          
+          # Create service account file
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > /tmp/service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
+          
+          # Upload to Firebase
+          firebase appdistribution:distribute ./artifacts/Yela.ipa \
+            --app "1:846145100933:ios:545c7ffdd25a2ce5599dec" \
+            --groups "testers" \
+            --release-notes "Build ${{ github.sha }}"
 
   build-android:
     runs-on: ubuntu-latest
