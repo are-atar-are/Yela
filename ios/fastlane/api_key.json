@@ -1,0 +1,7 @@
+{
+  "key_id": "GY3H992G6W",
+  "issuer_id": "50f75704-db3f-4938-9a9a-cf560fd69397",
+  "key": "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgyes8Qrscd4r9GK58\nhjO7eS2kK74+2nX9X+s/+A7o3GegCgYIKoZIzj0DAQehRANCAASQHuwmdGKTTxtQ\n6ClWl3nl+SZqPQufQbpQ37r5FD+geJiYuYke8tJzucxgb8JCbMNP7qnaBAqb6Sld\n8dOgcCHe\n-----END PRIVATE KEY-----",
+  "duration": 1200,
+  "in_house": false
+}

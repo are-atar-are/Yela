@@ -1,0 +1,2 @@
+app_identifier("com.yela.app")
+apple_id(ENV["APPLE_ID"] || "are.atar.are@gmail.com")

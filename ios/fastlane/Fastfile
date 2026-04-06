@@ -1,0 +1,35 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build development IPA (for testing)"
+  lane :beta do
+    # Find the installed provisioning profile
+    profile_path = Dir["#{ENV['HOME']}/Library/MobileDevice/Provisioning Profiles/*.mobileprovision"].first
+    UI.message("Using provisioning profile: #{profile_path}")
+    
+    # Build the app with manual signing (development)
+    build_app(
+      workspace: "Yela.xcworkspace",
+      scheme: "Yela",
+      export_method: "development",
+      output_directory: "./build",
+      output_name: "Yela.ipa",
+      export_options: {
+        provisioningProfiles: {
+          "com.yela.app" => File.basename(profile_path, ".mobileprovision")
+        }
+      }
+    )
+    
+    UI.success("Build successful! IPA located at: ./build/Yela.ipa")
+    # TODO: Upload to TestFlight once App Store credentials are ready
+    # upload_to_testflight(
+    #   skip_waiting_for_build_processing: true,
+    #   notify_external_testers: false,
+    #   api_key: api_key
+    # )
+  end
+end

@@ -1,0 +1,40 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AccessToAllFleetoTables",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoVehicles",
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoVehicles/index/*",
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoBookings",
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoBookings/index/*",
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoTasks",
+        "arn:aws:dynamodb:eu-north-1:*:table/FleetoTasks/index/*"
+      ]
+    },
+    {
+      "Sid": "AccessToCognitoUserPool",
+      "Effect": "Allow",
+      "Action": [
+        "cognito-idp:ListUsers",
+        "cognito-idp:AdminCreateUser",
+        "cognito-idp:AdminSetUserPassword",
+        "cognito-idp:AdminDisableUser",
+        "cognito-idp:AdminEnableUser",
+        "cognito-idp:AdminUpdateUserAttributes",
+        "cognito-idp:AdminGetUser",
+        "cognito-idp:AdminDeleteUser"
+      ],
+      "Resource": "arn:aws:cognito-idp:eu-north-1:325866320806:userpool/eu-north-1_v8P404noM"
+    }
+  ]
+}
