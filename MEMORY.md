@@ -4,7 +4,7 @@
 
 ### Fleeto - Fleet Booking App
 **Status:** Active Development  
-**Last Updated:** March 24, 2026
+**Last Updated:** April 9, 2026
 
 #### Repositories
 - **arFleetTracker** (Mobile): `/Users/areatar/.openclaw/workspace/ATAR-ENG/arFleetTracker`
@@ -13,13 +13,16 @@
 - **learning** (Documentation): `/Users/areatar/.openclaw/workspace/learning`
 
 #### Current Branch
-`feature/car-rental-ui`
+`main` (ar-fleeto-admin), `feature/car-rental-ui` (arFleetTracker)
 
 #### Features Implemented
 1. **Authentication** - AWS Cognito with mock auth for dev
 2. **Tasks** - Full CRUD with DynamoDB (FleetoTasks table)
 3. **Vehicles** - Browse by category, book with availability check (FleetoVehicles + FleetoBookings tables)
 4. **UI Components** - Buttons, Cards, Typography, Theme system
+5. **Car Rental UI** - Pick up time selection with Duration row (April 9, 2026)
+6. **Admin Dashboard** - UI/UX improvements, caseStudy feature, login preview (April 9, 2026)
+7. **Admin Dashboard Redesign** - Light theme, glassmorphism, top navigation, new layout (April 10, 2026)
 
 #### Architecture Rules (Draft Blueprint)
 1. **Feature-based organization** - Each feature has screens/, components/, redux/, types/
@@ -38,8 +41,10 @@
 #### Next Tasks
 1. ✅ Commit features to react-native-app-starter (DONE)
 2. ✅ Create Web vs Mobile comparison doc (DONE - in learning repo)
-3. ⏳ Enhance vehicle availability (calendar view, time slots)
-4. ⏳ Update documentation
+3. ✅ Commit ar-fleeto-admin changes (DONE - April 9, 2026)
+4. ⏳ Enhance vehicle availability (calendar view, time slots)
+5. ⏳ Update documentation
+6. ⏳ Commit ar-fleeto-admin redesign changes (April 10, 2026 - pending)
 
 ---
 
