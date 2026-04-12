@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-10T14:16:22.942Z",
+  "entries": {
+    "memory:memory/2026-04-10.md:35:68": {
+      "key": "memory:memory/2026-04-10.md:35:68",
+      "path": "memory/2026-04-10.md",
+      "startLine": 35,
+      "endLine": 68,
+      "source": "memory",
+      "snippet": "- `/src/themes/index.ts` - Light theme colors - `/src/components/layout/Layout.tsx` - Top navigation, no sidebar - `/src/features/dashboard/screens/Dashboard.tsx` - New layout with all components - `/src/index.css` - Lufga font import - Multiple component files for icons and styling ### Status: - Build successful with no errors - All TypeScript and ESLint issues resolved - Dashboard accessible and functional ## Layout Update - April 10, 2026 (10:10 AM) ### Layout Reordered to Match Design: 1. **Stats row** (4 cards) - Today's Bookings, Active Vehicles, Available Drivers, Revenue 2. **Live Fleet Map** (large, full width, ~400px height) - prominent position 3. **Booking Progress** + **Flee",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8741550137072335,
+      "maxScore": 0.8741550137072335,
+      "firstRecalledAt": "2026-04-10T14:16:22.942Z",
+      "lastRecalledAt": "2026-04-10T14:16:22.942Z",
+      "queryHashes": [
+        "7000bb06a6d5"
+      ],
+      "recallDays": [
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "src/themes/index.ts",
+        "src/components/layout/layout.tsx",
+        "src/index.css",
+        "src",
+        "themes",
+        "index.ts",
+        "light",
+        "theme"
+      ]
+    },
+    "memory:memory/2026-04-10.md:1:42": {
+      "key": "memory:memory/2026-04-10.md:1:42",
+      "path": "memory/2026-04-10.md",
+      "startLine": 1,
+      "endLine": 42,
+      "source": "memory",
+      "snippet": "# Memory - April 10, 2026 ## Fleeto Admin Dashboard Redesign Complete ### Completed Work: 1. **Light Theme Implementation** - Background: #F5F5F7 (light grey) - Glassmorphism cards with blur effects - Removed sidebar, added top navigation 2. **Layout Changes** - Header with \"Fleeto.\" logo, horizontal nav (Overview, Bookings, Employees, Vehicles) - Search bar centered, notifications + user profile on right - Clean, modern design matching Transcope reference 3. **Dashboard Components** - Stats cards (Today's Bookings, Active Vehicles, Available Drivers, Revenue) - Booking Progress visualization (Pending → Confirmed → Collected → Completed) - Fleet Distribution by",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8661002767501071,
+      "maxScore": 0.8661002767501071,
+      "firstRecalledAt": "2026-04-10T14:16:22.942Z",
+      "lastRecalledAt": "2026-04-10T14:16:22.942Z",
+      "queryHashes": [
+        "7000bb06a6d5"
+      ],
+      "recallDays": [
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "april",
+        "fleeto",
+        "admin",
+        "dashboard",
+        "redesign",
+        "complete",
+        "completed",
+        "light"
+      ]
+    },
+    "memory:memory/2026-03-21.md:1:32": {
+      "key": "memory:memory/2026-03-21.md:1:32",
+      "path": "memory/2026-03-21.md",
+      "startLine": 1,
+      "endLine": 32,
+      "source": "memory",
+      "snippet": "# Memory Log - March 21, 2026 ## arFleetTracker Project Progress ### Completed Features: 1. ✅ React Native app with Redux architecture 2. ✅ Car Rental UI with swipeable cards 3. ✅ Component showcase feature 4. ✅ Fixed calendar and filters layout 5. ✅ Local vehicle images integrated 6. ✅ PR #2 created and updated ### Active Work: - Creating ar-fleeto-admin React dashboard - Admin interface with sidebar navigation - Dashboard with stats cards and booking tables - Using Inter font matching design specs ### Repositories: - arFleetTracker: https://github.com/are-atar-are/arFleetTracker (PR #2) - react-native-app-starter: https://github.com/are-atar-are/react-native-app-starter - learning: htt",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8172337546671583,
+      "maxScore": 0.8172337546671583,
+      "firstRecalledAt": "2026-04-10T14:16:22.942Z",
+      "lastRecalledAt": "2026-04-10T14:16:22.942Z",
+      "queryHashes": [
+        "7000bb06a6d5"
+      ],
+      "recallDays": [
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "ar-fleeto-admin",
+        "react-native-app-starter",
+        "log",
+        "march",
+        "arfleettracker",
+        "project",
+        "progress",
+        "completed"
+      ]
+    },
+    "memory:memory/2026-03-30.md:42:64": {
+      "key": "memory:memory/2026-03-30.md:42:64",
+      "path": "memory/2026-03-30.md",
+      "startLine": 42,
+      "endLine": 64,
+      "source": "memory",
+      "snippet": "1. Receive tender invitation 2. View BOQ and specifications 3. Submit bid with pricing 4. Receive award/rejection notification ### Current State - Admin review interface complete - Contractor submission interface pending (would need separate dashboard) --- ## Next Steps (If Continued) - [ ] Contractor dashboard for bid submission - [ ] Email/push notification integration - [ ] AWS DynamoDB backend setup - [ ] Authentication integration - [ ] Excel parsing for BOQ import ## Notes - Built on Fleeto admin template for rapid development - All screens have mock data for demonstration - Responsive CSS with modern styling",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8118373216696954,
+      "maxScore": 0.8118373216696954,
+      "firstRecalledAt": "2026-04-10T14:16:22.942Z",
+      "lastRecalledAt": "2026-04-10T14:16:22.942Z",
+      "queryHashes": [
+        "7000bb06a6d5"
+      ],
+      "recallDays": [
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "award/rejection",
+        "email/push",
+        "receive",
+        "tender",
+        "invitation",
+        "view",
+        "boq",
+        "specifications"
+      ]
+    },
+    "memory:memory/2026-03-30.md:1:54": {
+      "key": "memory:memory/2026-03-30.md:1:54",
+      "path": "memory/2026-03-30.md",
+      "startLine": 1,
+      "endLine": 54,
+      "source": "memory",
+      "snippet": "# BOQCloud Development Log - March 30, 2026 ## Project: BOQCloud Admin Portal **Status:** Core screens complete **Location:** `/Users/areatar/.openclaw/workspace/BOQCloud-admin/` --- ## Completed Work ### Admin Portal Screens Created 1. **Dashboard** - Stats overview, quick actions 2. **BOQ Editor** - Hierarchical sections/sub-sections with items table 3. **Cost Estimates** - Pre-tender estimates with contingency/profit adjustments 4. **Tender Management** - Review, accept, reject workflow 5. **Vendor Management** - Subcontractor/supplier database with ratings 6. **Rate Database** - Unit rate library categorized by type ### Key Features Implemented - Excel import/export for BOQ - Cost",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8054386871867617,
+      "maxScore": 0.8054386871867617,
+      "firstRecalledAt": "2026-04-10T14:16:22.942Z",
+      "lastRecalledAt": "2026-04-10T14:16:22.942Z",
+      "queryHashes": [
+        "7000bb06a6d5"
+      ],
+      "recallDays": [
+        "2026-04-10"
+      ],
+      "conceptTags": [
+        "users/areatar",
+        "sections/sub-sections",
+        "pre-tender",
+        "contingency/profit",
+        "subcontractor/supplier",
+        "import/export",
+        "boqcloud",
+        "development"
+      ]
+    }
+  }
+}

@@ -44,7 +44,8 @@
 3. ✅ Commit ar-fleeto-admin changes (DONE - April 9, 2026)
 4. ⏳ Enhance vehicle availability (calendar view, time slots)
 5. ⏳ Update documentation
-6. ⏳ Commit ar-fleeto-admin redesign changes (April 10, 2026 - pending)
+6. ✅ Commit ar-fleeto-admin redesign changes (DONE - April 10, 2026)
+7. ✅ Dashboard connected to real DynamoDB data (DONE - April 11, 2026)
 
 ---
 

@@ -1,38 +1,39 @@
-// Theme configuration for ar-fleeto-admin
-// Font: Inter (similar to design)
+// Theme configuration for Fleeto Admin Dashboard
+// Transcope-inspired dark theme with neon yellow accent
 
 export const colors = {
-  // Primary colors
-  primary: '#1a1a1a',
-  secondary: '#4f46e5', // Indigo
-  accent: '#10b981', // Emerald green for success
-  
   // Background colors
-  background: '#f9fafb',
-  surface: '#ffffff',
-  sidebar: '#1f2937',
+  background: '#0A0A0A',
+  surface: '#141414',
+  surfaceElevated: '#1A1A1A',
+  hover: '#242424',
+  
+  // Accent colors
+  accent: '#E8FF00',
+  accentHover: '#D4EB00',
+  accentText: '#0A0A0A',
   
   // Text colors
-  textPrimary: '#111827',
-  textSecondary: '#6b7280',
-  textTertiary: '#9ca3af',
-  textWhite: '#ffffff',
+  textPrimary: '#FFFFFF',
+  textSecondary: '#A3A3A3',
+  textTertiary: '#737373',
+  textMuted: '#525252',
   
   // Border colors
-  border: '#e5e7eb',
-  borderLight: '#f3f4f6',
+  border: 'rgba(255, 255, 255, 0.05)',
+  borderLight: 'rgba(255, 255, 255, 0.1)',
   
   // Status colors
-  success: '#10b981',
-  error: '#ef4444',
-  warning: '#f59e0b',
-  info: '#3b82f6',
+  success: '#22C55E',
+  error: '#EF4444',
+  warning: '#F59E0B',
+  info: '#3B82F6',
   
   // Chart colors
-  chartBlue: '#3b82f6',
-  chartGreen: '#10b981',
-  chartYellow: '#f59e0b',
-  chartPurple: '#8b5cf6',
+  chartPrimary: '#E8FF00',
+  chartSecondary: '#22C55E',
+  chartTertiary: '#3B82F6',
+  chartQuaternary: '#8B5CF6',
 };
 
 export const typography = {
@@ -40,15 +41,15 @@ export const typography = {
   fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
   
   // Font sizes
-  h1: '2.25rem',    // 36px
-  h2: '1.875rem',   // 30px
-  h3: '1.5rem',     // 24px
-  h4: '1.25rem',    // 20px
-  h5: '1.125rem',   // 18px
-  h6: '1rem',       // 16px
-  body: '0.875rem', // 14px
+  h1: '2rem',         // 32px
+  h2: '1.5rem',       // 24px
+  h3: '1.25rem',      // 20px
+  h4: '1.125rem',     // 18px
+  h5: '1rem',         // 16px
+  h6: '0.875rem',     // 14px
+  body: '0.875rem',   // 14px
   bodySmall: '0.75rem', // 12px
-  caption: '0.75rem',   // 12px
+  caption: '0.625rem',  // 10px
   
   // Font weights
   light: 300,
@@ -73,7 +74,7 @@ export const spacing = {
 };
 
 export const borderRadius = {
-  sm: '0.25rem',  // 4px
+  sm: '0.375rem', // 6px
   md: '0.5rem',   // 8px
   lg: '0.75rem',  // 12px
   xl: '1rem',     // 16px
@@ -81,10 +82,17 @@ export const borderRadius = {
 };
 
 export const shadows = {
-  sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-  md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-  xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+  sm: '0 1px 2px 0 rgba(0, 0, 0, 0.3)',
+  md: '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
+  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
+  xl: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+  glow: '0 0 20px rgba(232, 255, 0, 0.3)',
+};
+
+export const glassmorphism = {
+  background: 'rgba(20, 20, 20, 0.8)',
+  backdropFilter: 'blur(12px)',
+  border: '1px solid rgba(255, 255, 255, 0.05)',
 };
 
 const theme = {
@@ -93,6 +101,7 @@ const theme = {
   spacing,
   borderRadius,
   shadows,
+  glassmorphism,
 };
 
 export default theme;
