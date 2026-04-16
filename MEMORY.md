@@ -47,6 +47,11 @@
 6. ✅ Commit ar-fleeto-admin redesign changes (DONE - April 10, 2026)
 7. ✅ Dashboard connected to real DynamoDB data (DONE - April 11, 2026)
 8. ✅ Fixed Dashboard TypeScript errors - booking status updates (DONE - April 13, 2026)
+9. ✅ Performance optimizations - caching, memoization, static map (DONE - April 15, 2026)
+10. ✅ Demo mode for local development - bypasses Cognito auth (DONE - April 15, 2026)
+11. ✅ Add Employee and Add Vehicle modals (DONE - April 15, 2026)
+12. ✅ Cancelled filter, View Details modal, Logout (DONE - April 15, 2026)
+13. ⏳ Mobile app booking calendar view (next priority)
 
 ---
 
