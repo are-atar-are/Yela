@@ -4,7 +4,7 @@
 
 ### Fleeto - Fleet Booking App
 **Status:** Active Development  
-**Last Updated:** April 9, 2026
+**Last Updated:** April 18, 2026
 
 #### Repositories
 - **arFleetTracker** (Mobile): `/Users/areatar/.openclaw/workspace/ATAR-ENG/arFleetTracker`
@@ -52,6 +52,9 @@
 11. ✅ Add Employee and Add Vehicle modals (DONE - April 15, 2026)
 12. ✅ Cancelled filter, View Details modal, Logout (DONE - April 15, 2026)
 13. ⏳ Mobile app booking calendar view (next priority)
+14. ⏳ Push ar-fleeto-admin commits (5 commits ready - April 18, 2026)
+15. ⏳ Review Draft submodule changes (VehicleTimeContent.tsx - April 18, 2026)
+16. ⏳ Review on-track-app iOS configuration changes (April 18, 2026)
 
 ---
 
