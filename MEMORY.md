@@ -4,7 +4,7 @@
 
 ### Fleeto - Fleet Booking App
 **Status:** Active Development  
-**Last Updated:** April 18, 2026
+**Last Updated:** April 27, 2026
 
 #### Repositories
 - **arFleetTracker** (Mobile): `/Users/areatar/.openclaw/workspace/ATAR-ENG/arFleetTracker`
@@ -55,6 +55,8 @@
 14. ⏳ Push ar-fleeto-admin commits (5 commits ready - April 18, 2026)
 15. ⏳ Review Draft submodule changes (VehicleTimeContent.tsx - April 18, 2026)
 16. ⏳ Review on-track-app iOS configuration changes (April 18, 2026)
+17. ⏳ Fix arFleetTracker local development environment (iOS/Android build issues - April 27, 2026)
+18. ⏳ Implement vehicle location tracking system with Mapbox (April 27, 2026)
 
 ---
 
